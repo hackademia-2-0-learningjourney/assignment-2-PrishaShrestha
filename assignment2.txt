@@ -1,0 +1,30 @@
+import json
+
+def signup():
+    user_data = {}
+    for i in range(1, 4):
+        name = input("Enter username: ")
+        password = input("Enter password: ")
+        mobile_number = input("Enter mobile number: ")
+        user_data[name] = {"password": password, "mobile_number": mobile_number}
+    with open('file.json', 'a') as f:
+        json.dump(user_data, f)
+
+def signin():
+    username = input('Enter username: ')
+    password = input('Enter password: ')
+    try:
+        with open('file.json', 'r') as f:
+            user_data = json.load(f)
+            if username in user_data and user_data[username]["password"] == password:
+                print("Welcome!")
+            else:
+                print("Incorrect credentials")
+    except (FileNotFoundError, json.JSONDecodeError):
+        print("No user data found. Please sign up first.")
+
+opt = int(input('Enter 1 to sign up or 2 to sign in: '))
+if opt == 1:
+    signup()
+else:
+    signin()
